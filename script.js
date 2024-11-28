@@ -1,10 +1,13 @@
 const cards = document.querySelectorAll("#product #card");
 const cart = document.getElementById("purchase-list");
-const couponButton = document.getElementById("coupon-button");
 
 let totalPrice = 0;
 const quantity = {};
 let productIndex = 1;
+
+function reset(input) {
+  return document.getElementById(input).value = "";
+}
 
 cards.forEach((card) => {
   card.addEventListener("click", ()=>{
@@ -31,20 +34,25 @@ cards.forEach((card) => {
 
     totalPrice += productPrice;
     document.getElementById("total-price").innerText = totalPrice.toFixed(2);
-
-    couponButton.addEventListener("click", ()=>{
-      const couponCode = document.getElementById("coupon-input").value;
-      if (couponCode == "SELL200") {
-        const discount = totalPrice * 0.2;
-        const discountedTotal = totalPrice - discount;
-
-        document.getElementById("discount-amount").innerText = discount.toFixed(2);
-        document.getElementById("discounted-price").innerText = discountedTotal.toFixed(2);
-      }
-    });
   });
 });
 
+document.getElementById("coupon-button").addEventListener("click", ()=>{
+  const couponCode = document.getElementById("coupon-input").value;
+  if (couponCode == "SELL200") {
+    const discount = totalPrice * 0.2;
+    const discountedTotal = totalPrice - discount;
+
+    document.getElementById("discount-amount").innerText = discount.toFixed(2);
+    document.getElementById("discounted-price").innerText = discountedTotal.toFixed(2);
+
+    reset("coupon-input");
+  }
+  else{
+    alert("Invalid coupon code")
+    reset("coupon-input");
+  }
+});
 
 document.getElementById("purchase-button").addEventListener("click", ()=>{
   
